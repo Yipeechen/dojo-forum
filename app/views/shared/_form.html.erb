@@ -1,0 +1,13 @@
+  <%= form_for  @post do |f| %>
+    <%= f.label :title, "Title" %>
+    <%= f.text_field :title, class:"form-control" %> <br>
+
+    <%= f.label :description, "Description" %>
+    <%= f.text_area :description, class:"form-control" %> <br>
+
+    <%= f.label :image, "Photo" %>
+    <%= image_tag @post.image, width: '300px' if @post.image? %>
+    <%= f.file_field :image %> <br>
+
+    <%= f.submit  'Update', :class => 'btn btn-primary' %>
+  <% end %>
