@@ -2,7 +2,7 @@ namespace :dev do
   task fake_posts: :environment do
     Post.destroy_all
 
-    20.times do |i|
+    100.times do |i|
       number = rand(1..9)
       file = File.open("#{Rails.root}/public/image/image#{number}.jpg")
 

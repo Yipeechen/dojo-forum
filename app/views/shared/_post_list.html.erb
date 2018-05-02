@@ -1,0 +1,29 @@
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Replies count</th>
+      <th>Title</th>
+      <th>Last replied at</th>
+      <th>Viewed count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @posts.each do |post| %>
+    
+    <tr>
+      <td><%= post.id %></td>
+      <td>
+        <%= link_to post_path(post) do %>
+          <%= post.title %>
+        <% end %>
+      </td>
+      <td></td>
+      <td></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="text-center">
+  <%= paginate @posts %>
+</div>
