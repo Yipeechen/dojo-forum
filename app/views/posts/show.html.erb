@@ -1,7 +1,9 @@
 <div class="container">
   <h1><%= @post.title %></h1>
+  <p>Category： <%= @post.categories.map(&:name).join(' | ') %></p>
   <%= image_tag @post.image, width: '600px' %>
   <p><%= @post.description %></p>
+  
   
   <%= link_to '<i class="glyphicon glyphicon-pencil" aria-hidden="true"> 編輯</i>'.html_safe, edit_post_path, class: 'btn btn-primary' %>
   <%= link_to '<i class="glyphicon glyphicon-trash" aria-hidden="true"> 刪除</i>'.html_safe, post_path(@post), class: 'btn btn-danger', method: :delete, data: {confirm:"Are you sure?"} %>

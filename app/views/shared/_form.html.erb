@@ -9,5 +9,10 @@
     <%= image_tag @post.image, width: '300px' if @post.image? %>
     <%= f.file_field :image %> <br>
 
-    <%= f.submit  'Update', :class => 'btn btn-primary' %>
+    <%= f.label :category_ids, "Category：" %>
+    <%= f.collection_check_boxes(:category_ids, Category.all, :id, :name, checked: @post.categories.map(&:id)) do |category| %>    
+      <%= category.check_box %> <%= category.label %>
+    <% end %> <br>
+
+    <%= f.submit  'Submit', :class => 'btn btn-primary' %>
   <% end %>
