@@ -1,0 +1,38 @@
+<div class="container">
+  <h1>文章分類總表</h1>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-inline" >
+        <%= form_for [:admin, @category] do |f| %>
+          <div class="form-group">
+            <%= f.text_field :name, placeholder: "請輸入欲新增分類", class: "form-control" %>
+          </div>
+          <%= f.submit "Submit", class: "btn btn-primary" %> 
+          <% if @category.errors.any? %>
+            <%= @category.errors.full_messages.to_sentence %>
+          <% end %>     
+        <% end %>
+      </div> 
+      <br> 
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Category Name</th>
+            <th>功能</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @categories.each do |category| %>
+          <tr>
+            <td><%= category.name %></td>
+            <td>
+              <%= link_to '<i class="glyphicon glyphicon-pencil" aria-hidden="true"> 編輯</i>'.html_safe, admin_categories_path(id: category.id), class: "btn btn-default btn-sm" %> ｜
+              <%= link_to '<i class="glyphicon glyphicon-trash" aria-hidden="true"> 刪除</i>'.html_safe, admin_category_path(category), method: :delete, data: { confirm: "Are you sure?"}, class: "btn btn-default btn-sm" %>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
