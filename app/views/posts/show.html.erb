@@ -1,6 +1,11 @@
 <div class="container">
   <h1><%= @post.title %></h1>
   <p>Category： <%= @post.categories.map(&:name).join(' | ') %></p>
+
+  <p>發表者：
+    <%= @post.user.name if @post.user.name? %>
+    <%= @post.user.email.split("@").first unless @post.user.name? %>
+  </p>
   <%= image_tag @post.image, width: '600px' %>
   <p><%= @post.description %></p>
   

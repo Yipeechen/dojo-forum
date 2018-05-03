@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :replies
+  has_many :posts
 
   def admin?
     self.role == "admin"
