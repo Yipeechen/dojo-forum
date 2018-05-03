@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <%= render :partial => "shared/user_info" %>
+      <br>
+      <%= render :partial => "shared/user_tabs", :locals => { :selected_item => '我的留言' } %>
+      <% @user_replies.each do |reply| %>
+      <div>
+        <div>
+          <h4><%= reply.post.title %></h4>
+          <p><%= reply.content %></p>
+        </div>
+        <div>
+          <% if current_user.admin? || reply.user == current_user %>
+          <%= link_to '<i class="glyphicon glyphicon-trash" aria-hidden="true"> 刪除</i>'.html_safe, post_reply_path(reply.post, reply), method: :delete, data: {confirm:"確定刪除此留言?"}, class: "pull-right btn btn-default btn-sm" %>
+        <% end %>
+        </div>
+      </div> <br>
+      <% end %>
+    </div>
+  </div>
+</div>

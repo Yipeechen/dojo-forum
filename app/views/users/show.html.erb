@@ -1,26 +1,21 @@
 <div class="container">
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
-      <div class="page-header">
-        <div class="col-md-3 col-sm-4">
-          <div class="text-center">
-            <%= image_tag @user.avatar, class: "img-responsive img-rounded" if @user.avatar?%>
-            <%= image_tag "http://via.placeholder.com/400x400", class: "img-responsive img-rounded"  unless @user.avatar?%> 
-            <h3><%= @user.name if @user.name? %>
-            <%= @user.email.split("@").first unless @user.name? %>
-            </h3>
-          </div>
-        </div>
-        <div class="col-md-9 col-sm-8">
-          <p><strong><%= @user.email %></strong></p>
-          <div><%= simple_format @user.introduction %></div>
-          <% if @user.email == current_user.email %>
-            <%= link_to '編輯個人資料', edit_user_path(@user), class: "btn btn-primary" %>
-          <% end %>
-        </div>
-        <div class="clearfix"></div>
-      </div>
+      <%= render :partial => "shared/user_info" %>
       <br>
+      <%= render :partial => "shared/user_tabs", :locals => { :selected_item => '我的文章' } %>
+      <% @user.posts.each do |post| %>
+        <div>
+          <div>
+            <h4><%= post.title %></h4>
+            <p><%= post.description %></p>
+          </div>
+          <div>
+            <%= link_to '<i class="glyphicon glyphicon-pencil" aria-hidden="true"> 編輯</i>'.html_safe, edit_post_path, class: 'btn btn-primary' %>
+            <%= link_to '<i class="glyphicon glyphicon-trash" aria-hidden="true"> 刪除</i>'.html_safe, post_path(post), class: 'btn btn-danger', method: :delete, data: {confirm:"Are you sure?"} %>
+          </div>
+        </div> <br>
+      <% end %>
     </div>
   </div>
 </div>

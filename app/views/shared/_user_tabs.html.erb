@@ -1,0 +1,4 @@
+<ul class="user-tab clearfix">
+  <li role="presentation" class="<%= 'active' if selected_item == '我的文章' %>"><%= link_to "我的文章", user_path(@user) %></li>
+  <li role="presentation" class="<%= 'active' if selected_item == '我的留言' %>"><%= link_to "我的留言", comment_user_path(@user) %></li>
+</ul>

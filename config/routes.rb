@@ -4,7 +4,11 @@ Rails.application.routes.draw do
   resources :posts, only: [:index, :new, :edit, :create, :show, :update, :destroy] do
     resources :replies, only: [:create, :destroy]
   end
-  resources :users, only: [:show, :edit, :update]
+  resources :users, only: [:show, :edit, :update] do
+    member do
+      get :comment
+    end
+  end
   
   resources :categories, only: :show
   root "posts#index"

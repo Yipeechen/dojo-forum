@@ -1,9 +1,13 @@
 class UsersController < ApplicationController
 
-  before_action :set_user, only: [:show, :edit, :update]
+  before_action :set_user, only: [:show, :edit, :update, :comment]
 
   def show
+    
+  end
 
+  def comment
+    @user_replies = @user.replies
   end
 
   def edit
