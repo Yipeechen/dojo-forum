@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <h3>編輯個人檔案</h3>
+      <%= form_for @user do |f| %>
+        <div class="form-group">
+          <%= f.label :name, "Name" %>
+          <%= f.text_field :name, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :introduction, "自我介紹" %>
+          <%= f.text_area :introduction, class: "form-control", style: 'height: 150px' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :avatar, "大頭照上傳" %>
+          <%= image_tag @user.avatar, width: '300px' if @user.avatar? %>
+          <%= f.file_field :avatar %>
+        </div>
+        <div class="form-group">
+          <%= f.submit "更新個人資料", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+
+    </div>
+
+  </div>
+</div>
