@@ -4,4 +4,5 @@ class Post < ApplicationRecord
   validates_presence_of :title, :description, :categories
 
   has_and_belongs_to_many :categories
+  has_many :replies
 end

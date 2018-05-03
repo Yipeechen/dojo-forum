@@ -24,7 +24,7 @@ class PostsController < ApplicationController
   end
 
   def show
-    
+    @reply = Reply.new
   end
 
   def edit
