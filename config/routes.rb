@@ -4,7 +4,8 @@ Rails.application.routes.draw do
   resources :posts, only: [:index, :new, :edit, :create, :show, :update, :destroy] do
     resources :replies, only: [:create, :destroy]
   end
-
+  resources :users, only: [:show, :edit, :update]
+  
   resources :categories, only: :show
   root "posts#index"
 
