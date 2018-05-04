@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  resources :posts, only: [:index, :new, :edit, :create, :show, :update, :destroy] do
+  resources :posts do
     resources :replies, only: [:create, :destroy]
   end
   resources :users, only: [:show, :edit, :update] do
@@ -14,8 +14,7 @@ Rails.application.routes.draw do
   root "posts#index"
 
   namespace :admin do
-    resources :posts
     resources :categories
-    root "posts#index"
+    root "categories#index"
   end
 end

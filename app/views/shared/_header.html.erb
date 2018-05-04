@@ -12,7 +12,7 @@
        <ul class="pull-right text-right nav navbar-nav">
           <% if current_user %>
             <% if current_user.admin? %>
-              <li><%= link_to '<i class="glyphicon glyphicon-inbox" aria-hidden="true"></i> '.html_safe, admin_posts_path %></li>
+              <li><%= link_to '<i class="glyphicon glyphicon-inbox" aria-hidden="true"></i> '.html_safe, admin_categories_path %></li>
             <% end %>
           <li><p class="navbar-text">Hi, <%= current_user.name if current_user.name? %>
           <%= current_user.email.split("@").first unless current_user.name? %></p></li>
