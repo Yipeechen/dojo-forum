@@ -10,7 +10,7 @@
     <%= f.file_field :image %> <br>
 
     <%= f.label :category_ids, "Category：" %>
-    <%= f.collection_check_boxes(:category_ids, Category.all, :id, :name, checked: @post.categories.map(&:id)) do |category| %>    
+    <%= f.collection_check_boxes(:category_ids, Category.all, :id, :name) do |category| %>    
       <%= category.check_box %> <%= category.label %>
     <% end %> <br>
 
