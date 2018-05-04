@@ -6,7 +6,8 @@
      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <% if current_user %>
-          <li><%= link_to '<i class="glyphicon glyphicon-file" aria-hidden="true"></i> New Post '.html_safe, new_post_path %></li>
+          <li><%= link_to ' Feeds <i class="glyphicon glyphicon-fire" aria-hidden="true"></i>'.html_safe, feeds_posts_path %></li>
+          <li><%= link_to ' New Post <i class="glyphicon glyphicon-file" aria-hidden="true"></i>'.html_safe, new_post_path %></li>
        <% end %>
       </ul>
        <ul class="pull-right text-right nav navbar-nav">

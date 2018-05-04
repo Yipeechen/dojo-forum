@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="info"  style="text-align: center;">
+        <div class="col-md-4" >
+          <h3>User</h3>
+          <span class="label label-warning"><%= @users.count %></span>
+        </div>
+        <div class="col-md-4">
+          <h3>Post</h3>
+          <span class="label label-warning"><%= @posts.count %></span>
+        </div>
+        <div class="col-md-4">
+          <h3>Reply</h3>
+          <span class="label label-warning"><%= @replies.count %></span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12" style="margin-top: 80px;">
+      <div class="col-md-6">
+        <h3 style="text-align: center;">Chatterbox</h3>
+        <hr>
+        <% @active_users.each do |user| %>
+       <div class="media chatter-box">
+          <div class="media-left col-md-2">
+            <%= image_tag user.avatar , class:' img-circle', style: 'width:65px; height:65px;' if user.avatar?%>
+              <%= image_tag "http://via.placeholder.com/60x60" , class:' img-circle'  unless user.avatar?%>
+          </div>
+          <div class="media-heading col-md-10">
+            <h4><%= link_to user.name, user_path(user) %></h4>
+            <p><%= truncate(user.introduction, length:50) %></p>
+          </div>
+        </div>
+        <% end %>
+      </div>
+
+      <div class="col-md-6">
+        <h3 style="text-align: center;">Most Popular Post</h3>
+        <hr>
+        <% @popular_posts.each do |post| %>
+        <div class="media chatter-box">
+          <div class="media-left col-md-2">
+            <%= image_tag post.image , class:' img-circle', style: 'width:65px; height:65px;' if post.image?%>
+              <%= image_tag "http://via.placeholder.com/60x60" , class:' img-circle'  unless post.image?%>
+          </div>
+          <div class="media-heading col-md-10">
+            <h4><%= link_to post.title, post_path(post) %></h4>
+            <p><%= truncate(post.description, length:50) %></p>
+          </div>
+        </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

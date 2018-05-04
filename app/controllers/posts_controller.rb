@@ -47,6 +47,14 @@ class PostsController < ApplicationController
     flash[:alert] = "post was deleted"
   end
 
+  def feeds
+    @users = User.all
+    @posts = Post.all
+    @replies = Reply.all
+    @popular_posts = @posts.sort_by { |s| s.replies.count } .reverse.take(10)
+    @active_users = @users.sort_by { |s| s.replies.count } .reverse.take(10)
+  end
+
   private
 
   def post_params
