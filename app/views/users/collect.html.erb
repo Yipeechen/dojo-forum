@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <%= render :partial => "shared/user_info" %>
+      <br>
+      <%= render :partial => "shared/user_tabs", :locals => { :selected_item => '我的收藏' } %>
+      <% @user_collect.each do |post| %>
+      <div>
+        <div>
+          <h4><%= post.title %></h4>
+        </div>
+        <div>
+          <%= render partial: "shared/favorite", locals: {post: post} %>
+        </div>
+      </div> <br>
+      <% end %>
+    </div>
+  </div>
+</div>

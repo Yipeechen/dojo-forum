@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  before_action :set_user, only: [:show, :edit, :update, :comment]
+  before_action :set_user, only: [:show, :edit, :update, :comment, :collect]
 
   def show
     
@@ -8,6 +8,10 @@ class UsersController < ApplicationController
 
   def comment
     @user_replies = @user.replies
+  end
+
+  def collect
+    @user_collect = @user.favorited_posts
   end
 
   def edit

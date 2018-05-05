@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   resources :users, only: [:show, :edit, :update] do
     member do
       get :comment
+      get :collect
     end
   end
   
