@@ -7,6 +7,11 @@ Rails.application.routes.draw do
     collection do
       get :feeds
     end
+
+    member do
+      post :favorite
+      post :unfavorite
+    end
   end
   resources :users, only: [:show, :edit, :update] do
     member do

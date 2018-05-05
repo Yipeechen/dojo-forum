@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   
 
-  before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :set_post, only: [:show, :edit, :update, :destroy, :favorite, :unfavorite]
   
   def index
     @posts = Post.page(params[:page]).per(10)
@@ -53,6 +53,17 @@ class PostsController < ApplicationController
     @replies = Reply.all
     @popular_posts = @posts.sort_by { |s| s.replies.count } .reverse.take(10)
     @active_users = @users.sort_by { |s| s.replies.count } .reverse.take(10)
+  end
+
+   def favorite
+    @post.favorites.create!(user: current_user)
+    redirect_back(fallback_location: root_path)
+  end
+
+  def unfavorite
+    favorites = Favorite.where(post: @post, user: current_user)
+    favorites.destroy_all
+    redirect_back(fallback_location: root_path)
   end
 
   private

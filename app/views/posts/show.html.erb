@@ -1,5 +1,8 @@
 <div class="container">
   <h1><%= @post.title %></h1>
+
+  <%= render partial: "shared/favorite", locals: {post: @post} %>
+
   <p>Category： <%= @post.categories.map(&:name).join(' | ') %></p>
 
   <p>發表者：
