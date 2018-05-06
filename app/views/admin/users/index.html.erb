@@ -1,0 +1,34 @@
+<div class="container">
+  <%= render :partial => "shared/admin_tabs", :locals => { :selected_item => 'User List' } %>
+  <div class="row">
+    <div class="col-md-12">
+
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @users.each do |user| %>
+          <tr>
+            <td><%= user.name if user.name? %>
+                <%= user.email.split("@").first unless user.name? %>
+            </td>
+            <td><%= user.email %></td>
+            <td>
+              <%= form_for [:admin, user] do |f| %>
+                <%= f.select(:role, [['Admin', 'admin'], ['Normal', 'normal']]) %>
+                <%= f.submit "Update", class: "btn-sm btn-primary" %>
+              <% end %>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</div>
