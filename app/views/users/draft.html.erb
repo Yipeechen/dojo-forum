@@ -18,7 +18,12 @@
                 <% end %>
               </td>
               <td><%= post.created_at.to_s[0..9] %></td>
-              <td></td>
+              <td>
+                <% if post.user == current_user %>
+                  <%= link_to '<i class="glyphicon glyphicon-pencil" aria-hidden="true"></i>'.html_safe, edit_post_path(post), class: 'btn-sm btn-default' %>
+                  <%= link_to '<i class="glyphicon glyphicon-trash" aria-hidden="true"></i>'.html_safe, post_path(post), class: 'btn-sm btn-default', method: :delete, data: {confirm:"確定刪除此篇草稿？"} %>
+                <% end %>
+              </td>
             </tr>
             <% end %>
           </tbody>

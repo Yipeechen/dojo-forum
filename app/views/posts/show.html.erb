@@ -1,7 +1,12 @@
 <div class="container">
-  <h1><%= @post.title %></h1>
-
-  <%= render partial: "shared/favorite", locals: {post: @post} %>
+  <h1>
+    <%= @post.title %>
+    <% if @post.status %>
+      <%= render partial: "shared/favorite", locals: {post: @post} %>
+    <% else %>
+      <small><span class="label label-danger">Draft</span></small>
+    <% end %>
+  </h1>
 
   <p>Category： <%= @post.categories.map(&:name).join(' | ') %></p>
 
@@ -15,6 +20,8 @@
   
   <%= link_to '<i class="glyphicon glyphicon-pencil" aria-hidden="true"> 編輯</i>'.html_safe, edit_post_path, class: 'btn btn-primary' %>
   <%= link_to '<i class="glyphicon glyphicon-trash" aria-hidden="true"> 刪除</i>'.html_safe, post_path(@post), class: 'btn btn-danger', method: :delete, data: {confirm:"Are you sure?"} %>
+
+  <% if @post.status %>
   <hr>
   <% @post.replies.each do |reply| %>
     <div>
@@ -40,5 +47,5 @@
       <%= f.submit  'Submit', :class => 'btn btn-primary' %>
     </div>
   <% end %>
-
+  <% end %>
 </div>
