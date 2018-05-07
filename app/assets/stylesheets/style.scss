@@ -111,3 +111,32 @@ a {
   border-radius: 2px;
 }
 
+/* ============================== 07. post-info =========================*/
+.post-info {
+  margin-left: 25px;
+  font-size: 14px;
+}
+
+/* ============================== 08. favorite-btn =========================*/
+.favorite-btn a {
+  width: 36px;
+  height: 34px;
+  line-height: 23px;
+  font-size: 23px;
+  text-align: center;
+  border: 2px solid currentColor;
+  border-radius: 100%;
+  underline: none;
+}
+
+.favorite-btn i {
+  margin-top: 3px;
+  }
+
+/* ============================== 09. post-content =========================*/
+.post-content {
+  background-color: #f4f4f4;
+  margin: 10px 0px 30px 0px;
+  padding: 20px;
+  border-radius: 10px;
+}

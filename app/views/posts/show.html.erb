@@ -1,51 +1,76 @@
 <div class="container">
-  <h1>
-    <%= @post.title %>
-    <% if @post.status %>
-      <%= render partial: "shared/favorite", locals: {post: @post} %>
-    <% else %>
-      <small><span class="label label-danger">Draft</span></small>
-    <% end %>
-  </h1>
+  <div class="col-md-12 post-content">
+    <h1>
+      <%= @post.title %>
+      <span class="post-info">
+        Category： <%= @post.categories.map(&:name).join(' | ') %>
+      </span>
 
-  <p>Category： <%= @post.categories.map(&:name).join(' | ') %></p>
-
-  <p>發表者：
-    <%= @post.user.name if @post.user.name? %>
-    <%= @post.user.email.split("@").first unless @post.user.name? %>
-  </p>
-  <%= image_tag @post.image, width: '600px' %>
-  <p><%= @post.description %></p>
-  
-  
-  <%= link_to '<i class="glyphicon glyphicon-pencil" aria-hidden="true"> 編輯</i>'.html_safe, edit_post_path, class: 'btn btn-primary' %>
-  <%= link_to '<i class="glyphicon glyphicon-trash" aria-hidden="true"> 刪除</i>'.html_safe, post_path(@post), class: 'btn btn-danger', method: :delete, data: {confirm:"Are you sure?"} %>
-
-  <% if @post.status %>
-  <hr>
-  <% @post.replies.each do |reply| %>
-    <div>
-      <h4><%= reply.user.name if reply.user.name? %>
-          <%= reply.user.email.split("@").first unless reply.user.name? %> 
-      </h4>
-      <p><%= simple_format reply.content %></p>
-      <p class="text-muted">
-        <em><%= time_ago_in_words(reply.created_at) %> </em>
-        <% if current_user.admin? || reply.user == current_user %>
-          <%= link_to '<i class="glyphicon glyphicon-trash" aria-hidden="true"> 刪除</i>'.html_safe, post_reply_path(@post, reply), method: :delete, data: {confirm:"確定刪除此留言?"}, class: "pull-right btn btn-default btn-sm" %>
-        <% end %>
-      </p>
-    </div>
+      <% if @post.status %>
+      <div class="pull-right favorite-btn">
+        <%= render partial: "shared/favorite", locals: {post: @post} %>
+      </div>
+      <% else %>
+        <small><span class="label label-danger pull-right">Draft</span></small>
+      <% end %>
+    </h1>
     <hr>
-    <% end %>
 
-   <%= form_for [@post, @reply] do |f| %>
-    <div class="form-group">
-      <%= f.text_area :content, placeholder: "add comment", class: "form-control" %>
+    <div class="col-md-2">
+      <div>
+      <%= image_tag @post.user.avatar, width: '150px' %>
+      </div>
+      <h4 style="text-align: center;">
+        <%= @post.user.name if @post.user.name? %>
+        <%= @post.user.email.split("@").first unless @post.user.name? %>
+      </h4>
     </div>
-    <div class="form-group">
-      <%= f.submit  'Submit', :class => 'btn btn-primary' %>
+
+    <div class="col-md-10">
+      <div>
+        <%= image_tag @post.image, width: '600px', style: 'margin:15px' %>
+      </div>
+      <p><%= @post.description %></p>
+      <div class="pull-right">
+      <%= link_to '<i class="glyphicon glyphicon-pencil" aria-hidden="true"></i>'.html_safe, edit_post_path, class: 'btn btn-primary' %>
+      <%= link_to '<i class="glyphicon glyphicon-trash" aria-hidden="true"></i>'.html_safe, post_path(@post), class: 'btn btn-danger', method: :delete, data: {confirm:"確定刪除這篇文章?"} %>
+      </div>
     </div>
-  <% end %>
-  <% end %>
+  </div>
+
+  <div class="col-md-12">
+    <% if @post.status %>
+      <% @post.replies.each do |reply| %>
+        <div class="media">
+
+          <div class="media-left">
+          <%= image_tag reply.user.avatar, width: '100px' if reply.user.avatar?%>
+            <%= image_tag "http://via.placeholder.com/100x100"  unless reply.user.avatar?%>
+          <h5 style="text-align: center"><%= reply.user.name if reply.user.name? %>
+            <%= reply.user.email.split("@").first unless reply.user.name? %> 
+          </h5>
+          </div>
+
+          <div class="media-body" style="padding-left: 30px;">
+            <p><%= simple_format reply.content %></p>
+            <p><em><%= time_ago_in_words(reply.created_at) %></em></p>
+            <% if current_user.admin? || reply.user == current_user %>
+                <%= link_to '<i class="glyphicon glyphicon-trash" aria-hidden="true"></i>'.html_safe, post_reply_path(@post, reply), method: :delete, data: {confirm:"確定刪除此留言?"}, class: "pull-right btn btn-default btn-sm" %>
+            <% end %>
+          </div>
+          <hr>
+        </div>
+      <% end %>
+
+      <%= form_for [@post, @reply] do |f| %>
+        <div class="form-group">
+          <%= f.text_area :content, placeholder: "add comment", class: "form-control", style: 'height: 150px; border-radius: 20px;' %>
+        </div>
+        <div class="form-group">
+          <%= f.submit  'Submit', :class => 'btn btn-primary' %>
+        </div>
+      <% end %>
+      
+    <% end %>
+  </div>
 </div>
