@@ -16,7 +16,13 @@
           <%= post.title %>
         <% end %>
       </td>
-      <td><%= post.replies.last.created_at.to_s[0..9] %></td>
+      <td>
+        <% if post.replies_count != 0 %>
+          <%= post.replies.last.created_at.to_s[0..9] %>
+        <% else %>
+          No reply
+        <% end %>
+      </td>
       <td><i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i> &nbsp;<%= post.viewed_count %></td>
     </tr>
     <% end %>

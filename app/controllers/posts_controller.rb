@@ -14,12 +14,24 @@ class PostsController < ApplicationController
 
   def create
     @post = current_user.posts.new(post_params)
-    if @post.save
-      flash[:notice] = "post was successfully created"
-      redirect_to posts_path
+    if params[:commit] == 'Submit'
+      @post.status = true
+      if @post.save
+        flash[:notice] = "Post was successfully created"
+        redirect_to post_path(@post)
+      else
+        flash.now[:alert] = "Post was failed to create"
+        render :new
+      end
     else
-      flash.now[:alert] = "post was failed to create"
-      render :new
+      @post.status = false
+      if @post.save
+        flash[:notice] = "Draft was successfully created"
+        redirect_to post_path(@post)
+      else
+        flash.now[:alert] = "Draft was failed to create"
+        render :new
+      end
     end
   end
 
