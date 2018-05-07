@@ -17,19 +17,19 @@ class PostsController < ApplicationController
     if params[:commit] == 'Submit'
       @post.status = true
       if @post.save
-        flash[:notice] = "Post was successfully created"
+        flash[:notice] = "文章發布成功"
         redirect_to post_path(@post)
       else
-        flash.now[:alert] = "Post was failed to create"
+        flash.now[:alert] = "文章發布失敗"
         render :new
       end
     else
       @post.status = false
       if @post.save
-        flash[:notice] = "Draft was successfully created"
+        flash[:notice] = "草稿發布成功"
         redirect_to post_path(@post)
       else
-        flash.now[:alert] = "Draft was failed to create"
+        flash.now[:alert] = "草稿發布失敗"
         render :new
       end
     end
@@ -45,19 +45,47 @@ class PostsController < ApplicationController
   end
 
   def update
-    if @post.update(post_params)
-      flash[:notice] = "post was successfully updated"
-      redirect_to post_path(@post)
+    if @post.status == true && params[:commit] == 'Update'
+      if @post.update(post_params)
+        flash[:notice] = "文章更新成功"
+        redirect_to post_path(@post)
+      else
+        flash.now[:alert] = "文章更新失敗"
+        render :edit
+      end
+    elsif @post.status == false && params[:commit] == 'Submit'
+      @post.status = true
+      @post.viewed_count = 0
+
+      if @post.update(post_params)
+        flash[:notice] = "文章發布成功"
+        redirect_to post_path(@post)
+      else
+        flash.now[:alert] = "文章發布失敗"
+        render :edit
+      end
     else
-      flash.now[:alert] = "post was failed to update"
-      render :edit
-    end
+      if @post.update(post_params)
+        flash[:notice] = "草稿更新成功"
+        redirect_to post_path(@post)
+      else
+        flash.now[:alert] = "草稿更新失敗"
+        render :edit
+      end
+    end 
   end
 
   def destroy
     @post.destroy
-    redirect_to posts_path
-    flash[:alert] = "post was deleted"
+
+    if @post.status == true
+      redirect_to posts_path
+      flash[:alert] = "文章內容已刪除"
+    else
+      redirect_to draft_user_path(@post.user)
+      flash[:alert] = "草稿內容已刪除"
+    end
+    
   end
 
   def feeds

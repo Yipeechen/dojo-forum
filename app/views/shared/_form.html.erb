@@ -14,6 +14,10 @@
       <%= category.check_box %> <%= category.label %>
     <% end %> <br>
     
-    <%= f.submit "Save Draft", :class => 'btn btn-default' %>
-    <%= f.submit  'Submit', :class => 'btn btn-primary' %>
+    <% if @post.status != true %>
+      <%= f.submit "Save Draft", :class => 'btn btn-default' %>
+      <%= f.submit  'Submit', :class => 'btn btn-primary' %>
+    <% else %>
+      <%= f.submit  'Update', :class => 'btn btn-primary' %>
+    <% end %>
   <% end %>
