@@ -1,9 +1,9 @@
 class UsersController < ApplicationController
 
-  before_action :set_user, only: [:show, :edit, :update, :comment, :collect]
+  before_action :set_user, only: [:show, :edit, :update, :comment, :collect, :draft]
 
   def show
-    
+    @user_posts = @user.posts.where('status = ?', true)
   end
 
   def comment
@@ -12,6 +12,10 @@ class UsersController < ApplicationController
 
   def collect
     @user_collect = @user.favorited_posts
+  end
+
+  def draft
+    @user_drafts = @user.posts.where('status = ?', false)
   end
 
   def edit

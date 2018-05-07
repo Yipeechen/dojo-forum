@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     member do
       get :comment
       get :collect
+      get :draft
     end
   end
   

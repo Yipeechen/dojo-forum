@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <%= render :partial => "shared/user_info" %>
+      <br>
+      <%= render :partial => "shared/user_tabs", :locals => { :selected_item => '我的草稿' } %>
+
+        <table class="table table-hover user-table">
+          <tbody>
+            <% @user_drafts.each do |post| %>
+             <tr>
+              <td><%= post.title %></td>
+              <td>
+                <% if post.status %>
+                  Post
+                <% else %>
+                  Draft
+                <% end %>
+              </td>
+              <td><%= post.created_at.to_s[0..9] %></td>
+              <td></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>  
+      </div>
+    </div>
+  </div>
+</div>

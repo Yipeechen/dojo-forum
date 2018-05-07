@@ -11,7 +11,8 @@ namespace :dev do
         description: FFaker::Lorem.paragraph,
         image: file,
         category_ids: [rand(1..3), rand(4..7)],
-        user: User.all.sample
+        user: User.all.sample,
+        status: true
       )
     end
     puts "have created fake Posts"

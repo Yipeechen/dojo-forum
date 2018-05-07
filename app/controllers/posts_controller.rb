@@ -4,7 +4,7 @@ class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy, :favorite, :unfavorite]
   
   def index
-    @posts = Post.page(params[:page]).per(20)
+    @posts = Post.where('status = ?', true).page(params[:page]).per(20)
     @categories = Category.all
   end
 

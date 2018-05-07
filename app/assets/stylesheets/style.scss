@@ -35,7 +35,6 @@ a {
 
 /* ============================== 02. user-tab =========================*/
 .user-tab{
-  margin: 35px 0;
   text-align: center;
 }
 
@@ -68,6 +67,7 @@ a {
   margin: 10px;
 }
 
+/* ============================== 04. login-btn =========================*/
 .login-btn {
   padding: 5px 50px;
   margin: 5px 16px;
@@ -102,3 +102,12 @@ a {
   border-color:#984b4b;
   font-weight: bold;
 } 
+
+/* ============================== 06. user-table =========================*/
+.user-table {
+  color: #333;
+  border-collapse: separate;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,.16);
+  border-radius: 2px;
+}
+
