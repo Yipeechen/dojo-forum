@@ -62,7 +62,7 @@ class PostsController < ApplicationController
 
   def feeds
     @users = User.all
-    @posts = Post.all
+    @posts = Post.where('status = ?', true)
     @replies = Reply.all
     @popular_posts = @posts.sort_by { |s| s.replies.count } .reverse.take(10)
     @active_users = @users.sort_by { |s| s.replies.count } .reverse.take(10)
