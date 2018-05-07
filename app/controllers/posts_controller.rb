@@ -4,7 +4,7 @@ class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy, :favorite, :unfavorite]
   
   def index
-    @posts = Post.page(params[:page]).per(10)
+    @posts = Post.page(params[:page]).per(20)
     @categories = Category.all
   end
 
@@ -25,6 +25,7 @@ class PostsController < ApplicationController
 
   def show
     @reply = Reply.new
+    @post.increment!(:viewed_count)
   end
 
   def edit

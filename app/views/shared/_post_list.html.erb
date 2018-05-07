@@ -1,23 +1,23 @@
 <table class="table table-hover">
   <thead>
     <tr>
-      <th>Replies count <i class="glyphicon glyphicon-chevron-down" aria-hidden="true"></i></th>
-      <th>Title</th>
-      <th>Last replied at <i class="glyphicon glyphicon-chevron-down" aria-hidden="true"></i></th>
-      <th>Viewed count <i class="glyphicon glyphicon-chevron-down" aria-hidden="true"></i></th>
+      <th style="text-align: center;">Replies count <i class="glyphicon glyphicon-chevron-down" aria-hidden="true"></i></th>
+      <th style="text-align: center;">Title</th>
+      <th style="text-align: center;">Last replied at <i class="glyphicon glyphicon-chevron-down" aria-hidden="true"></i></th>
+      <th style="text-align: center;">Viewed count <i class="glyphicon glyphicon-chevron-down" aria-hidden="true"></i></th>
     </tr>
   </thead>
-  <tbody>
+  <tbody style="text-align: center;">
     <% @posts.each do |post| %>
     <tr>
       <td><span  class="label label-warning"><%= post.replies_count %></span></td>
-      <td>
+      <td style="text-align: left;">
         <%= link_to post_path(post) do %>
           <%= post.title %>
         <% end %>
       </td>
       <td><%= post.replies.last.created_at.to_s[0..9] %></td>
-      <td></td>
+      <td><i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i> &nbsp;<%= post.viewed_count %></td>
     </tr>
     <% end %>
   </tbody>
