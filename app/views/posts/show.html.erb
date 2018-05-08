@@ -56,7 +56,7 @@
             <% if current_user.admin? || reply.user == current_user %>
               <div class="pull-right">
                 <span class="edit-reply btn btn-default btn-sm glyphicon glyphicon-pencil"></span>
-                <%= link_to '<i class="glyphicon glyphicon-trash" aria-hidden="true"></i>'.html_safe, post_reply_path(@post, reply), method: :delete, data: {confirm:"確定刪除此留言?"}, class: "btn btn-default btn-sm" %>
+                <%= link_to '<i class="glyphicon glyphicon-trash" aria-hidden="true"></i>'.html_safe, reply_path(reply), method: :delete, data: {confirm:"確定刪除此留言?"}, class: "btn btn-default btn-sm" %>
               </div>
             <% end %>
           </div>
@@ -64,11 +64,12 @@
         </div>
       <% end %>
 
-      <%= form_for [@post, @reply] do |f| %>
+      <%= form_for  @reply do |f| %>
         <div class="form-group">
           <%= f.text_area :content, placeholder: "add comment", class: "form-control", style: 'height: 150px; border-radius: 20px;' %>
         </div>
         <div class="form-group">
+          <%= hidden_field_tag :post_id, @post.id %>
           <%= f.submit  'Submit', :class => 'btn btn-primary' %>
         </div>
       <% end %>
@@ -81,12 +82,11 @@
 $("#replylist").on("click", ".edit-reply", function(event) {
 
   var id = event.target.parentNode.parentNode.parentNode.id;
-  var post_id = <%= @post.id %>;
 
   console.log(id);
 
   $.ajax({
-    url: "/posts/" + post_id + "/replies/" + id + "/edit",
+    url: "/replies/" + id + "/edit",
     method: "GET",
     dataType: "json",
     success: function() {
@@ -99,10 +99,10 @@ $("#replylist").on("click", ".edit-reply", function(event) {
       textColumn.on("click", ".update-button", function(updateEvent){
         updateEvent.preventDefault();
         var id = updateEvent.target.parentNode.parentNode.parentNode.id;
-        var post_id = <%= @post.id %>;
+
 
         $.ajax({
-          url: "/posts/" + post_id + "/replies/" + id ,
+          url: "/replies/" + id ,
           method: "PATCH",
           dataType: "json",
           data: {

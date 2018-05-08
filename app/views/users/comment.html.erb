@@ -13,7 +13,7 @@
               <td><%= reply.content %></td>
               <td>
                 <% if current_user.admin? || reply.user == current_user %>
-                  <%= link_to '<i class="glyphicon glyphicon-trash" aria-hidden="true"> 刪除</i>'.html_safe, post_reply_path(reply.post, reply), method: :delete, data: {confirm:"確定刪除此留言?"}, class: "pull-right btn btn-default btn-sm" %>
+                  <%= link_to '<i class="glyphicon glyphicon-trash" aria-hidden="true"> 刪除</i>'.html_safe, reply_path(reply), method: :delete, data: {confirm:"確定刪除此留言?"}, class: "pull-right btn btn-default btn-sm" %>
                 <% end %>
               </td>
             </tr>
