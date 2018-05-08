@@ -47,34 +47,36 @@ class PostsController < ApplicationController
   end
 
   def update
-    if @post.status == true && params[:commit] == 'Update'
-      if @post.update(post_params)
-        flash[:notice] = "文章更新成功"
-        redirect_to post_path(@post)
-      else
-        flash.now[:alert] = "文章更新失敗"
-        render :edit
-      end
-    elsif @post.status == false && params[:commit] == 'Submit'
-      @post.status = true
-      @post.viewed_count = 0
+    if current_user.admin? || current_user == @post.user
+      if @post.status == true && params[:commit] == 'Update'
+        if @post.update(post_params)
+          flash[:notice] = "文章更新成功"
+          redirect_to post_path(@post)
+        else
+          flash.now[:alert] = "文章更新失敗"
+          render :edit
+        end
+      elsif @post.status == false && params[:commit] == 'Submit'
+        @post.status = true
+        @post.viewed_count = 0
 
-      if @post.update(post_params)
-        flash[:notice] = "文章發布成功"
-        redirect_to post_path(@post)
+        if @post.update(post_params)
+          flash[:notice] = "文章發布成功"
+          redirect_to post_path(@post)
+        else
+          flash.now[:alert] = "文章發布失敗"
+          render :edit
+        end
       else
-        flash.now[:alert] = "文章發布失敗"
-        render :edit
-      end
-    else
-      if @post.update(post_params)
-        flash[:notice] = "草稿更新成功"
-        redirect_to post_path(@post)
-      else
-        flash.now[:alert] = "草稿更新失敗"
-        render :edit
-      end
-    end 
+        if @post.update(post_params)
+          flash[:notice] = "草稿更新成功"
+          redirect_to post_path(@post)
+        else
+          flash.now[:alert] = "草稿更新失敗"
+          render :edit
+        end
+      end 
+    end
   end
 
   def destroy
