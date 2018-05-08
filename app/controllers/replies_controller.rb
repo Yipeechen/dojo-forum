@@ -17,6 +17,20 @@ class RepliesController < ApplicationController
     end
   end
 
+  def edit
+    @post = Post.find(params[:post_id])
+    @reply = Reply.find(params[:id])
+
+    render :json => {:post => @post , :replies => @post.replies}
+  end
+
+  def update
+    @post = Post.find(params[:post_id])
+    @reply = Reply.find(params[:id])
+    @reply.update_attributes(reply_params)
+    render :json => {:post => @post , :replies => @post.replies}
+  end
+
   private
 
   def reply_params

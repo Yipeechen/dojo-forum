@@ -38,10 +38,10 @@
     </div>
   </div>
 
-  <div class="col-md-12">
+  <div class="col-md-12" id="replylist">
     <% if @post.status %>
       <% @post.replies.each do |reply| %>
-        <div class="media">
+        <div class="media"  id="<%= reply.id %>">
 
           <div class="media-left">
           <%= image_tag reply.user.avatar, width: '100px' if reply.user.avatar?%>
@@ -52,10 +52,12 @@
           </div>
 
           <div class="media-body" style="padding-left: 30px;">
-            <p><%= simple_format reply.content %></p>
-            <p><em><%= time_ago_in_words(reply.created_at) %></em></p>
+            <p class="reply-content"><%= reply.content %></p>
             <% if current_user.admin? || reply.user == current_user %>
-                <%= link_to '<i class="glyphicon glyphicon-trash" aria-hidden="true"></i>'.html_safe, post_reply_path(@post, reply), method: :delete, data: {confirm:"確定刪除此留言?"}, class: "pull-right btn btn-default btn-sm" %>
+              <div class="pull-right">
+                <span class="edit-reply btn btn-default btn-sm glyphicon glyphicon-pencil"></span>
+                <%= link_to '<i class="glyphicon glyphicon-trash" aria-hidden="true"></i>'.html_safe, post_reply_path(@post, reply), method: :delete, data: {confirm:"確定刪除此留言?"}, class: "btn btn-default btn-sm" %>
+              </div>
             <% end %>
           </div>
           <hr>
@@ -74,3 +76,68 @@
     <% end %>
   </div>
 </div>
+
+<script>
+$("#replylist").on("click", ".edit-reply", function(event) {
+
+  var id = event.target.parentNode.parentNode.parentNode.id;
+  var post_id = <%= @post.id %>;
+
+  console.log(id);
+
+  $.ajax({
+    url: "/posts/" + post_id + "/replies/" + id + "/edit",
+    method: "GET",
+    dataType: "json",
+    success: function() {
+      var content = $("#" + id).find(".reply-content");
+      var textColumn = $("#" + id).find(".media-body");
+      textColumn.html($("#edit-template").html());
+      textColumn.find(".update-content").val(content.html());
+      
+      // Update Action
+      textColumn.on("click", ".update-button", function(updateEvent){
+        updateEvent.preventDefault();
+        var id = updateEvent.target.parentNode.parentNode.parentNode.id;
+        var post_id = <%= @post.id %>;
+
+        $.ajax({
+          url: "/posts/" + post_id + "/replies/" + id ,
+          method: "PATCH",
+          dataType: "json",
+          data: {
+            reply: {
+              content: textColumn.find(".update-content").val()
+            }
+          },
+          success: function(updateData) {
+            var textColumn = $("#" + id).find(".media-body");
+            var content = textColumn.find(".update-content").val();
+            console.log(content);
+            console.log(id);
+
+            textColumn.html('<p class="reply-content"></p> <div class=\"pull-right\"></div>');
+            textColumn.find(".reply-content").html(content);
+
+            textColumn.find('div').append("<span class=\"edit-reply btn btn-default btn-sm glyphicon glyphicon-pencil\"></span>");
+            textColumn.find('div').append("<a data-confirm=\"確定刪除此留言?\" class=\"btn btn-default btn-sm\" rel=\"nofollow\" data-method=\"delete\" href=\"/posts/" + post_id + "/replies/"+ id +"\"><i class=\"glyphicon glyphicon-trash\" aria-hidden=\"true\"></i></a>");
+
+          }
+        });
+      });
+      
+    }
+  });
+});
+</script>
+
+<script type="text/template" id="edit-template">
+  <form>
+      <input type="text_area" class="update-content form-control" style="height:80px;" />
+      <br>
+      <button class="update-button pull-right btn btn-primary" type="submit">Update</button>
+  </form> 
+</script>
+
+
+
