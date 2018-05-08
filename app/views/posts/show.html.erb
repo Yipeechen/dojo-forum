@@ -21,8 +21,8 @@
       <%= image_tag @post.user.avatar, width: '150px' %>
       </div>
       <h4 style="text-align: center;">
-        <%= @post.user.name if @post.user.name? %>
-        <%= @post.user.email.split("@").first unless @post.user.name? %>
+        <%= link_to @post.user.name, user_path(@post.user) if @post.user.name? %>
+        <%= link_to @post.user.email.split("@").first, user_path(@post.user) unless @post.user.name? %>
       </h4>
     </div>
 
@@ -48,8 +48,9 @@
           <div class="media-left">
           <%= image_tag reply.user.avatar, width: '100px' if reply.user.avatar?%>
             <%= image_tag "http://via.placeholder.com/100x100"  unless reply.user.avatar?%>
-          <h5 style="text-align: center"><%= reply.user.name if reply.user.name? %>
-            <%= reply.user.email.split("@").first unless reply.user.name? %> 
+          <h5 style="text-align: center">
+            <%= link_to reply.user.name, user_path(reply.user) if reply.user.name? %>
+            <%= link_to reply.user.email.split("@").first, user_path(reply.user) unless reply.user.name? %> 
           </h5>
           </div>
 

@@ -14,8 +14,8 @@
         <tbody>
           <% @users.each do |user| %>
           <tr>
-            <td><%= user.name if user.name? %>
-                <%= user.email.split("@").first unless user.name? %>
+            <td><%= link_to user.name, user_path(user) if user.name? %>
+                <%= link_to user.email.split("@").first, user_path(user) unless user.name? %>
             </td>
             <td><%= user.email %></td>
             <td>
