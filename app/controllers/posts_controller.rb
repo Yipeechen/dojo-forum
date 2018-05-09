@@ -39,6 +39,7 @@ class PostsController < ApplicationController
 
   def show
     @reply = Reply.new
+    @replies = @post.replies.page(params[:page]).per(20)
     if current_user != @post.user
       @post.increment!(:viewed_count)
     end

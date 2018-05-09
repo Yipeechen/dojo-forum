@@ -4,7 +4,7 @@
       <%= image_tag @user.avatar, class: "img-responsive img-rounded" if @user.avatar?%>
       <%= image_tag "http://via.placeholder.com/400x400", class: "img-responsive img-rounded"  unless @user.avatar?%> 
       <h3><%= @user.name if @user.name? %>
-      <%= @user.email.split("@").first unless @user.name? %>
+      <%= @user.email.split("@").first.upcase_first unless @user.name? %>
       </h3>
     </div>
   </div>

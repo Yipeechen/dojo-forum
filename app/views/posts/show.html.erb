@@ -22,7 +22,7 @@
       </div>
       <h4 style="text-align: center;">
         <%= link_to @post.user.name, user_path(@post.user) if @post.user.name? %>
-        <%= link_to @post.user.email.split("@").first, user_path(@post.user) unless @post.user.name? %>
+        <%= link_to @post.user.email.split("@").first.upcase_first, user_path(@post.user) unless @post.user.name? %>
       </h4>
     </div>
 
@@ -45,7 +45,7 @@
 
   <div class="col-md-12" id="replylist">
     <% if @post.status %>
-      <% @post.replies.each do |reply| %>
+      <% @replies.each do |reply| %>
         <div class="media"  id="<%= reply.id %>">
 
           <div class="media-left">
@@ -53,7 +53,7 @@
             <%= image_tag "http://via.placeholder.com/100x100"  unless reply.user.avatar?%>
           <h5 style="text-align: center">
             <%= link_to reply.user.name, user_path(reply.user) if reply.user.name? %>
-            <%= link_to reply.user.email.split("@").first, user_path(reply.user) unless reply.user.name? %> 
+            <%= link_to reply.user.email.split("@").first.upcase_first, user_path(reply.user) unless reply.user.name? %> 
           </h5>
           </div>
 
@@ -69,6 +69,9 @@
           <hr>
         </div>
       <% end %>
+      <div class="text-center">
+        <%= paginate  @replies  %>
+      </div>
 
       <%= form_for  @reply do |f| %>
         <div class="form-group">
