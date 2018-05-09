@@ -1,10 +1,22 @@
 <table class="table table-hover">
   <thead>
     <tr>
-      <th style="text-align: center;">Replies count <i class="glyphicon glyphicon-chevron-down" aria-hidden="true"></i></th>
+      <th style="text-align: center;">
+        <%= link_to sort_posts_path(category_id: @category, reply: true)  do %>
+          Replies count <i class="glyphicon glyphicon-chevron-down" aria-hidden="true"></i>
+        <% end %>
+      </th>
       <th style="text-align: center;">Title</th>
-      <th style="text-align: center;">Last replied at <i class="glyphicon glyphicon-chevron-down" aria-hidden="true"></i></th>
-      <th style="text-align: center;">Viewed count <i class="glyphicon glyphicon-chevron-down" aria-hidden="true"></i></th>
+      <th style="text-align: center;">
+        <%= link_to sort_posts_path(category_id: @category, hot: true)  do %>
+          Last replied at <i class="glyphicon glyphicon-chevron-down" aria-hidden="true"></i>
+        <% end %>
+      </th>
+      <th style="text-align: center;">
+        <%= link_to sort_posts_path(category_id: @category, view: true)  do %>
+          Viewed count <i class="glyphicon glyphicon-chevron-down" aria-hidden="true"></i>
+        <% end %>
+      </th>
     </tr>
   </thead>
   <tbody style="text-align: center;">

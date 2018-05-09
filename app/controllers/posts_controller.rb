@@ -103,6 +103,26 @@ class PostsController < ApplicationController
     @active_users = @users.sort_by { |s| s.replies.count } .reverse.take(10)
   end
 
+  def sort
+    @categories = Category.all
+
+    if params[:category_id]
+      @category = Category.find(params[:category_id])
+      @posts = @category.posts.where('status = ?', true)
+    else
+      @posts = Post.where('status = ?', true)
+    end
+
+    if params[:reply]
+      @posts = @posts.order(replies_count: :desc).page(params[:page]).per(20)
+    elsif params[:hot]
+      @posts = @posts.includes(:replies).order("replies.created_at desc").page(params[:page]).per(20)    
+    else
+      @posts = @posts.order(viewed_count: :desc).page(params[:page]).per(20)
+    end
+
+  end
+
    def favorite
     @post.favorites.create!(user: current_user)
     redirect_back(fallback_location: root_path)

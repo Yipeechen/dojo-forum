@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="main-tab">
+        <% if params[:category_id] != nil %>
+          <li  role="presentation"><%= link_to "全部文章", root_path %></li>
+          <% @categories.each do |category| %>
+            <li role="presentation" class="<%= "active" if category == @category %>">
+              <%= link_to category.name, category_path(category) %>
+            </li>
+          <% end %>
+        <% else %>
+          <li  role="presentation" class="active"><%= link_to "全部文章", root_path %></li>
+          <% @categories.each do |category| %>
+            <li role="presentation"><%= link_to category.name, category_path(category) %></li>
+          <% end %>
+        <% end %>
+      </ul>
+      <br>
+      <%= render partial: "shared/post_list" %>
+
+    </div>
+
+  </div>
+</div>
