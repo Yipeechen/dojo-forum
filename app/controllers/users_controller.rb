@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
 
-  before_action :set_user, only: [:show, :edit, :update, :comment, :collect, :draft]
+  before_action :set_user, only: [:show, :edit, :update, :comment, :collect, :draft, :user_owner]
+  before_action :user_owner, only: [:collect, :draft]
 
   def show
     @user_posts = @user.posts.where('status = ?', true)
@@ -37,5 +38,12 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :introduction, :avatar)
+  end
+
+  def user_owner
+   unless @user.id == current_user.id
+    flash[:alert] = '非使用者不允許'
+    redirect_to user_path(@user)
+   end
   end
 end

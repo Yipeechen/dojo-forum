@@ -6,7 +6,7 @@
         Category： <%= @post.categories.map(&:name).join(' | ') %>
       </span>
 
-      <% if @post.status %>
+      <% if @post.is_published? %>
       <div class="pull-right favorite-btn">
         <%= render partial: "shared/favorite", locals: {post: @post} %>
       </div>
@@ -31,12 +31,15 @@
         <%= image_tag @post.image, width: '600px', style: 'margin:15px' %>
       </div>
       <p><%= @post.description %></p>
-      <% if current_user.admin? || @post.user == current_user %>
+      
         <div class="pull-right">
+          <% if @post.user == current_user %>
         <%= link_to '<i class="glyphicon glyphicon-pencil" aria-hidden="true"></i>'.html_safe, edit_post_path, class: 'btn btn-primary' %>
+        <% end %>
+        <% if current_user.admin? || @post.user == current_user %>
         <%= link_to '<i class="glyphicon glyphicon-trash" aria-hidden="true"></i>'.html_safe, post_path(@post), class: 'btn btn-danger', method: :delete, data: {confirm:"確定刪除這篇文章?"} %>
+        <% end %>
         </div>
-      <% end %>
     </div>
   </div>
 

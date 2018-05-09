@@ -22,9 +22,9 @@
           <% end %>
         </tbody>
       </table>
-
-      <%= link_to 'New Post', new_post_path, class: "btn btn-primary form-control" %>
-
+      <% if @user == current_user %>
+        <%= link_to 'New Post', new_post_path, class: "btn btn-primary form-control" %>
+      <% end %>
     </div>
   </div>
 </div>

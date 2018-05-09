@@ -13,4 +13,8 @@ class Post < ApplicationRecord
   def is_favorited?(user)
     self.favorited_users.include?(user)
   end
+
+  def is_published?
+    self.status == true
+  end
 end

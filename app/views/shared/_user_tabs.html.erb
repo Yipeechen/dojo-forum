@@ -1,6 +1,8 @@
 <ul class="user-tab clearfix">
   <li role="presentation" class="<%= 'active' if selected_item == '我的文章' %>"><%= link_to "我的文章", user_path(@user) %></li>
   <li role="presentation" class="<%= 'active' if selected_item == '我的留言' %>"><%= link_to "我的留言", comment_user_path(@user) %></li>
-  <li role="presentation" class="<%= 'active' if selected_item == '我的收藏' %>"><%= link_to "我的收藏", collect_user_path(@user) %></li>
-  <li role="presentation" class="<%= 'active' if selected_item == '我的草稿' %>"><%= link_to "我的草稿", draft_user_path(@user) %></li>
+  <% if @user == current_user %>
+    <li role="presentation" class="<%= 'active' if selected_item == '我的收藏' %>"><%= link_to "我的收藏", collect_user_path(@user) %></li>
+    <li role="presentation" class="<%= 'active' if selected_item == '我的草稿' %>"><%= link_to "我的草稿", draft_user_path(@user) %></li>
+  <% end %>
 </ul>

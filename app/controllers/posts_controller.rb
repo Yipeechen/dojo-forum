@@ -1,8 +1,10 @@
 class PostsController < ApplicationController
   skip_before_action :authenticate_user!, only: [:index]
 
-  before_action :set_post, only: [:show, :edit, :update, :destroy, :favorite, :unfavorite]
-  
+  before_action :set_post, only: [:show, :edit, :update, :destroy, :favorite, :unfavorite, :post_owner, :check_draft]
+  before_action :post_owner, only: [:edit, :update]
+  before_action :check_draft, only: [:show]
+
   def index
     @posts = Post.where('status = ?', true).page(params[:page]).per(20)
     @categories = Category.all
@@ -123,6 +125,20 @@ class PostsController < ApplicationController
 
   def set_post
     @post = Post.find(params[:id])
+  end
+
+  def post_owner
+    unless @post.user_id == current_user.id
+      flash[:alert] = '非文章擁有者無法編輯'
+      redirect_to posts_path
+    end
+  end
+
+  def check_draft
+    unless @post.is_published? || @post.user.id == current_user.id
+      flash[:alert] = '文章不公開'
+      redirect_to posts_path
+    end
   end
 end
 
