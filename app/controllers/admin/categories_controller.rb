@@ -17,7 +17,7 @@ class Admin::CategoriesController < ApplicationController
   def create
     @category = Category.new(category_params)
     if @category.save
-      flash[:notice] = "category was successfully created"
+      flash[:notice] = "分類創建成功"
       redirect_to admin_categories_path
 
     else
@@ -30,7 +30,7 @@ class Admin::CategoriesController < ApplicationController
     
     if @category.update(category_params)
       redirect_to admin_categories_path
-      flash[:notice] = "category was successfully updated"
+      flash[:notice] = "分類更新成功"
     else
       @categories = Category.all
       render :index
@@ -38,10 +38,14 @@ class Admin::CategoriesController < ApplicationController
   end
 
   def destroy
-    
-    @category.destroy
-    flash[:alert] = "category was successfully deleted"
-    redirect_to admin_categories_path
+    if @category.destroy
+      @category.destroy
+      flash[:alert] = "分類刪除成功"
+      redirect_to admin_categories_path
+    else
+      flash[:alert] = "分類刪除失敗"
+      redirect_to admin_categories_path
+    end
   end
 
   private
