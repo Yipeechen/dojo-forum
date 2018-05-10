@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  before_action :set_user, only: [:show, :edit, :update, :comment, :collect, :draft, :user_owner]
+  before_action :set_user, only: [:show, :edit, :update, :comment, :collect, :draft, :user_owner, :friend]
   before_action :user_owner, only: [:collect, :draft]
 
   def show
@@ -17,6 +17,12 @@ class UsersController < ApplicationController
 
   def draft
     @user_drafts = @user.posts.where('status = ?', false)
+  end
+
+  def friend
+    @friends = @user.all_friends 
+    @pending_friends = @user.pending_friends
+    @requested_friends = @user.requested_friends
   end
 
   def edit

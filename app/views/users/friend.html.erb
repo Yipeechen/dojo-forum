@@ -1,0 +1,78 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <%= render :partial => "shared/user_info" %>
+      <br>
+      <%= render :partial => "shared/user_tabs", :locals => { :selected_item => '我的好友' } %>
+
+      <div class="col-md-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><%= @user.pending_friends.count %> 個等待接受好友</h3>
+          </div>
+
+          <ul class="list-group">
+            <% @pending_friends.each do |friend| %>
+            <li class="list-group-item">
+              <%= link_to user_path(friend) do %>
+              <%= image_tag(friend.avatar, height: 50, width: 50, class: "img-circle") if friend.avatar?%>
+              <%= image_tag "http://via.placeholder.com/50x50", class:"img-circle" unless friend.avatar? %>
+              <strong><%= friend.name if friend.name? %>
+              <%= friend.email.split("@").first unless friend.name? %></strong>
+              <% end %>
+              <div class="pull-right">
+              <%= render partial: "shared/friend", locals: { user: friend }%>
+              </div>
+            </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><%= @user.requested_friends.count %> 個好友邀請</h3>
+          </div>
+          <ul class="list-group">
+            <% @requested_friends.each do |friend| %>
+            <li class="list-group-item">
+              <%= link_to user_path(friend) do %>
+              <%= image_tag(friend.avatar, height: 50, width: 50, class: "img-circle") if friend.avatar?%>
+              <%= image_tag "http://via.placeholder.com/50x50", class:"img-circle" unless friend.avatar? %>
+              <strong><%= friend.name %></strong>
+              <% end %>
+              <div class="pull-right">
+              <%= link_to "接受好友邀請", friendship_confirm_path(@user, friend), class: "btn btn-info btn-sm", method: :post %>
+              <%= link_to "拒絕好友邀請", friendship_reject_path(@user, friend), class: "btn btn-danger btn-sm", method: :delete %>
+              </div>
+            </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><%= @user.all_friends.count %> Friends</h3>
+          </div>
+            <ul class="list-group">
+              <% @friends.each do |friend| %>
+              <li class="list-group-item">
+                <%= link_to user_path(friend) do %>
+                <%= image_tag(friend.avatar, height: 50, width: 50, class: "img-circle") if friend.avatar?%>
+                <%= image_tag "http://via.placeholder.com/50x50", class:"img-circle" unless friend.avatar? %>
+                <strong><%= friend.name %></strong>
+                <% end %>
+                <div class="pull-right">
+                <%= render partial: "shared/friend", locals: { user: friend }%>
+                </div>
+              </li>
+              <% end %>
+            </ul>
+        </div>
+      </div>    
+    </div>
+  </div>
+</div>

@@ -1,6 +1,11 @@
 <% if user != current_user %>
   <% if current_user.friend?(user)%>
     <%= link_to '取消好友', friendship_path(user), method: :delete, class: "btn btn-default btn-sm" %>
+  <% elsif current_user.pending_friend?(user) %>
+    <%= link_to "取消好友邀請", friendship_path(user), method: :delete, class: "btn btn-danger btn-sm" %>
+  <% elsif current_user.requested_friend?(user) %>
+    <%= link_to "接受好友邀請", friendship_confirm_path(user), method: :post, class: "btn btn-info btn-sm" %>
+    <%= link_to "拒絕好友邀請", friendship_reject_path(user), method: :delete, class: "btn btn-danger btn-sm" %>
   <% else %>
     <%= link_to '加入好友', friendships_path(friend_id: user), method: :post, class: "btn btn-warning btn-sm"%>
   <% end %>

@@ -16,7 +16,10 @@ Rails.application.routes.draw do
   end
   
   resources :replies, only: [:create, :edit, :update, :destroy]
-  resources :friendships, only: [:create, :destroy]
+  resources :friendships, only: [:create, :destroy] do
+    post :confirm
+    delete :reject
+  end
 
 
   resources :users, only: [:show, :edit, :update] do
@@ -24,6 +27,7 @@ Rails.application.routes.draw do
       get :comment
       get :collect
       get :draft
+      get :friend
     end
   end
   
