@@ -16,6 +16,8 @@ Rails.application.routes.draw do
   end
   
   resources :replies, only: [:create, :edit, :update, :destroy]
+  resources :friendships, only: [:create, :destroy]
+
 
   resources :users, only: [:show, :edit, :update] do
     member do
