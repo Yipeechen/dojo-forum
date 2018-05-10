@@ -96,58 +96,48 @@ $("#replylist").on("click", ".edit-reply", function(event) {
 
   console.log(id);
 
-  $.ajax({
-    url: "/replies/" + id + "/edit",
-    method: "GET",
-    dataType: "json",
-    success: function() {
-      var content = $("#" + id).find(".reply-content");
-      var textColumn = $("#" + id).find(".media-body");
-      textColumn.html($("#edit-template").html());
-      textColumn.find(".update-content").val(content.html());
+  var content = $("#" + id).find(".reply-content");
+  var textColumn = $("#" + id).find(".media-body");
+  textColumn.html($("#edit-template").html());
+  textColumn.find(".update-content").val(content.html());
       
-      // Update Action
-      textColumn.on("click", ".update-button", function(updateEvent){
-        updateEvent.preventDefault();
-        var id = updateEvent.target.parentNode.parentNode.parentNode.id;
+  // Update Action
+  textColumn.one("click", ".update-button", function(updateEvent){
+    updateEvent.preventDefault();
+    var id = updateEvent.target.parentNode.parentNode.id;
 
 
-        $.ajax({
-          url: "/replies/" + id ,
-          method: "PATCH",
-          dataType: "json",
-          data: {
-            reply: {
-              content: textColumn.find(".update-content").val()
-            }
-          },
-          success: function(updateData) {
-            var textColumn = $("#" + id).find(".media-body");
-            var content = textColumn.find(".update-content").val();
-            console.log(content);
-            console.log(id);
+    $.ajax({
+      url: "/replies/" + id ,
+      method: "PATCH",
+      dataType: "json",
+      data: {
+        reply: {
+          content: textColumn.find(".update-content").val()
+        }
+      },
+      success: function(updateData) {
+        var textColumn = $("#" + id).find(".media-body");
+        var content = textColumn.find(".update-content").val();
+        console.log(content);
+        console.log(id);
 
-            textColumn.html('<p class="reply-content"></p> <div class=\"pull-right\"></div>');
-            textColumn.find(".reply-content").html(content);
+        textColumn.html('<p class="reply-content"></p> <div class=\"pull-right\"></div>');
+        textColumn.find(".reply-content").html(content);
 
-            textColumn.find('div').append("<span class=\"edit-reply btn btn-default btn-sm glyphicon glyphicon-pencil\"></span>");
-            textColumn.find('div').append("<a data-confirm=\"確定刪除此留言?\" class=\"btn btn-default btn-sm\" rel=\"nofollow\" data-method=\"delete\" href=\"/posts/" + post_id + "/replies/"+ id +"\"><i class=\"glyphicon glyphicon-trash\" aria-hidden=\"true\"></i></a>");
+        textColumn.find('div').append("<span class=\"edit-reply btn btn-default btn-sm glyphicon glyphicon-pencil\"></span>");
+        textColumn.find('div').append("<a data-confirm=\"確定刪除此留言?\" class=\"btn btn-default btn-sm\" rel=\"nofollow\" data-method=\"delete\" href=\"/posts/" + post_id + "/replies/"+ id +"\"><i class=\"glyphicon glyphicon-trash\" aria-hidden=\"true\"></i></a>");
 
-          }
-        });
-      });
-      
-    }
+      }
+    });
   });
 });
 </script>
 
 <script type="text/template" id="edit-template">
-  <form>
-      <input type="text_area" class="update-content form-control" style="height:80px;" />
-      <br>
-      <button class="update-button pull-right btn btn-primary" type="submit">Update</button>
-  </form> 
+  <input type="text_area" class="update-content form-control" style="height:80px;" />
+  <br>
+  <button class="update-button pull-right btn btn-primary" type="submit">Update</button>
 </script>
 
 
