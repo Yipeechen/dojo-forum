@@ -140,3 +140,39 @@ a {
   padding: 20px;
   border-radius: 10px;
 }
+
+/* ============================== 10. user-box =========================*/
+.user-box {
+  margin: 30px 0px 30px 0px;
+ }
+ 
+.user-box img {
+   width: 128px;
+   height: 128px;
+ }
+
+/* ============================== 11. user-title =========================*/
+.user-title {
+    font-family: 'Acme', sans-serif;
+    font: 20px;
+    margin-top: 30px;
+    text-align: center;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+    
+  &:before {
+      border-top: 2px solid #708090;
+      content:"";
+      margin: 0 auto;
+      position: absolute;
+      top: 50%; left: 0; right: 0; bottom: 0;
+      z-index: -1;
+  }
+
+  span { 
+      background: #fff; 
+      padding: 0 35px; 
+      color: gray;
+  }
+}
