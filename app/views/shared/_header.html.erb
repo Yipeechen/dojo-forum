@@ -1,7 +1,10 @@
-<nav class="navbar navbar-inverse">
+<link href="https://fonts.googleapis.com/css?family=Sigmar+One" rel="stylesheet">
+<nav class="navbar navbar-inverse" style="margin-bottom: 0px;">
   <div class="container-fluid">
      <div class="navbar-header">
-       <%= link_to '<i class="glyphicon glyphicon-home" aria-hidden="true"></i> Dojo '.html_safe, root_path, class: "navbar-brand" %>
+       <%= link_to  root_path, class: "navbar-brand" do %>
+        <p style="font-family: 'Sigmar One', cursive; font-size: 20px;">Dojo</p> 
+       <% end %>
      </div>
      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">

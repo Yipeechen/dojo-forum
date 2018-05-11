@@ -6,6 +6,8 @@ class PostsController < ApplicationController
   before_action :check_draft, only: [:show]
   before_action :check_authority, only: [:show]
 
+  layout "site_index", only: [:index, :sort]
+
   def index
     @posts = Post.where('status = ?', true).page(params[:page]).per(20)
     @categories = Category.all

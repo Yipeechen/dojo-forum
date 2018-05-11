@@ -176,3 +176,25 @@ a {
       color: gray;
   }
 }
+
+/* ============================== 12. site-name =========================*/
+.site-name {
+  background-color: lightblue;
+  padding:50px 50px 50px 100px;
+
+  p {
+    font-size: 50px;
+    text-transform: uppercase;
+    font-family: 'Sigmar One', cursive;
+  }
+
+  span {
+    font-size: 30px;
+    color:gray;
+    text-transform: lowercase;
+    font-family: 'Nanum Pen Script', cursive;
+    margin-left: 10px;
+    font-weight: bold;
+  }
+}
+
