@@ -4,6 +4,9 @@ class RepliesController < ApplicationController
     @reply = @post.replies.build(reply_params)
     @reply.user = current_user
     @reply.save!
+
+    @post.last_reply_created_at = Time.now
+    @post.save
     redirect_to post_path(@post)
   end
 

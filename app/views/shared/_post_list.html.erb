@@ -2,18 +2,18 @@
   <thead>
     <tr>
       <th style="text-align: center;">
-        <%= link_to sort_posts_path(category_id: @category, reply: true)  do %>
+        <%= link_to sort_posts_path(category_id: @category, replies_count: true)  do %>
           Replies count <i class="glyphicon glyphicon-chevron-down" aria-hidden="true"></i>
         <% end %>
       </th>
       <th style="text-align: center;">Title</th>
       <th style="text-align: center;">
-        <%= link_to sort_posts_path(category_id: @category, hot: true)  do %>
+        <%= link_to sort_posts_path(category_id: @category, last_replied_at: true)  do %>
           Last replied at <i class="glyphicon glyphicon-chevron-down" aria-hidden="true"></i>
         <% end %>
       </th>
       <th style="text-align: center;">
-        <%= link_to sort_posts_path(category_id: @category, view: true)  do %>
+        <%= link_to sort_posts_path(category_id: @category, viewed_count: true)  do %>
           Viewed count <i class="glyphicon glyphicon-chevron-down" aria-hidden="true"></i>
         <% end %>
       </th>

@@ -117,10 +117,10 @@ class PostsController < ApplicationController
       @posts = Post.where('status = ?', true).check_authority(current_user)
     end
 
-    if params[:reply]
+    if params[:replies_count]
       @posts = @posts.order(replies_count: :desc).page(params[:page]).per(20)
-    elsif params[:hot]
-      @posts = @posts.includes(:replies).order("replies.created_at desc").page(params[:page]).per(20)    
+    elsif params[:last_replied_at]
+      @posts = @posts.order(last_reply_created_at: :desc).page(params[:page]).per(20)    
     else
       @posts = @posts.order(viewed_count: :desc).page(params[:page]).per(20)
     end
