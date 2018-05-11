@@ -64,7 +64,9 @@
             <% if current_user.admin? || reply.user == current_user %>
               <div class="pull-right">
                 <span class="edit-reply btn btn-default btn-sm glyphicon glyphicon-pencil"></span>
-                <%= link_to '<i class="glyphicon glyphicon-trash" aria-hidden="true"></i>'.html_safe, reply_path(reply), method: :delete, data: {confirm:"確定刪除此留言?"}, class: "btn btn-default btn-sm" %>
+                <%= link_to reply_path(reply), method: :delete, data: {confirm:"確定刪除此留言?"} do %>
+                  <span class="btn btn-default btn-sm glyphicon glyphicon-trash"></span>
+                <% end %>
               </div>
             <% end %>
           </div>
@@ -126,7 +128,7 @@ $("#replylist").on("click", ".edit-reply", function(event) {
         textColumn.find(".reply-content").html(content);
 
         textColumn.find('div').append("<span class=\"edit-reply btn btn-default btn-sm glyphicon glyphicon-pencil\"></span>");
-        textColumn.find('div').append("<a data-confirm=\"確定刪除此留言?\" class=\"btn btn-default btn-sm\" rel=\"nofollow\" data-method=\"delete\" href=\"/posts/" + post_id + "/replies/"+ id +"\"><i class=\"glyphicon glyphicon-trash\" aria-hidden=\"true\"></i></a>");
+        textColumn.find('div').append("<a data-confirm=\"確定刪除此留言?\" rel=\"nofollow\" data-method=\"delete\" href=\"/replies/"+ id +"\"><span class=\"btn btn-default btn-sm glyphicon glyphicon-trash\"></span></a>");
 
       }
     });

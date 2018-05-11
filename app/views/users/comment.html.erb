@@ -6,14 +6,21 @@
       <%= render :partial => "shared/user_tabs", :locals => { :selected_item => '我的留言' } %>
 
       <table class="table table-hover user-table">
-        <tbody>
+        <tbody id="replylist">
           <% @user_replies.each do |reply| %>
-            <tr>
+            <tr id="<%= reply.id %>">
               <td><%= link_to reply.post.title, post_path(reply.post) %></td>
-              <td><%= reply.content %></td>
-              <td>
+              <td  class="text-area">
+                <p class="reply-content"><%= reply.content %></p>
+              </td>
+              <td class="reply-option">
                 <% if current_user.admin? || reply.user == current_user %>
-                  <%= link_to '<i class="glyphicon glyphicon-trash" aria-hidden="true"> 刪除</i>'.html_safe, reply_path(reply), method: :delete, data: {confirm:"確定刪除此留言?"}, class: "pull-right btn btn-default btn-sm" %>
+                <div class="pull-right">
+                  <span class="edit-reply btn btn-default btn-sm glyphicon glyphicon-pencil"></span>
+                  <%= link_to reply_path(reply), method: :delete, data: {confirm:"確定刪除此留言?"} do %>
+                    <span class="btn btn-default btn-sm glyphicon glyphicon-trash"></span>
+                  <% end %>
+                </div>
                 <% end %>
               </td>
             </tr>
@@ -24,3 +31,55 @@
     </div>
   </div>
 </div>
+
+<script>
+$("#replylist").on("click", ".edit-reply", function(event) {
+
+  var id = event.target.parentNode.parentNode.parentNode.id;
+
+  console.log(id);
+
+  var content = $("#" + id).find(".reply-content");
+  var textColumn = $("#" + id).find(".text-area");
+  var option = $("#" + id).find(".reply-option");
+
+  textColumn.html($("#edit-template").html());
+  option.html("<button class=\"update-button pull-right btn btn-primary\" type=\"submit\">Update</button>");
+  textColumn.find(".update-content").val(content.html());
+      
+  // Update Action
+  option.one("click", ".update-button", function(updateEvent){
+    updateEvent.preventDefault();
+    var id = updateEvent.target.parentNode.parentNode.id;
+
+
+    $.ajax({
+      url: "/replies/" + id ,
+      method: "PATCH",
+      dataType: "json",
+      data: {
+        reply: {
+          content: textColumn.find(".update-content").val()
+        }
+      },
+      success: function(updateData) {
+        var textColumn = $("#" + id).find(".text-area");
+        var content = textColumn.find(".update-content").val();
+        console.log(content);
+        console.log(id);
+
+        textColumn.html('<p class=\"reply-content\"></p>');
+        textColumn.find(".reply-content").html(content);
+
+        $("#" + id).find('.reply-option').html("<div class=\"pull-right\"></div>");
+        $("#" + id).find(".pull-right").append("<span class=\"edit-reply btn btn-default btn-sm glyphicon glyphicon-pencil\"></span>");
+        $("#" + id).find(".pull-right").append("<a data-confirm=\"確定刪除此留言?\" rel=\"nofollow\" data-method=\"delete\" href=\"/replies/"+ id +"\"><span class=\"btn btn-default btn-sm glyphicon glyphicon-trash\"></span></a>");
+      }
+    });
+  });
+});
+</script>
+
+<script type="text/template" id="edit-template">
+  <input type="text_area" class="update-content form-control" />
+</script>
