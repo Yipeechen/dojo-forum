@@ -1,13 +1,17 @@
 class PostsController < ApplicationController
   skip_before_action :authenticate_user!, only: [:index]
 
-  before_action :set_post, only: [:show, :edit, :update, :destroy, :favorite, :unfavorite, :post_owner, :check_draft]
+  before_action :set_post, only: [:show, :edit, :update, :destroy, :favorite, :unfavorite, :post_owner, :check_draft, :check_authority]
   before_action :post_owner, only: [:edit, :update]
   before_action :check_draft, only: [:show]
+  before_action :check_authority, only: [:show]
 
   def index
     @posts = Post.where('status = ?', true).page(params[:page]).per(20)
     @categories = Category.all
+    if user_signed_in?
+      @posts = @posts.check_authority(current_user)
+    end
   end
 
   def new
@@ -108,9 +112,9 @@ class PostsController < ApplicationController
 
     if params[:category_id]
       @category = Category.find(params[:category_id])
-      @posts = @category.posts.where('status = ?', true)
+      @posts = @category.posts.where('status = ?', true).check_authority(current_user)
     else
-      @posts = Post.where('status = ?', true)
+      @posts = Post.where('status = ?', true).check_authority(current_user)
     end
 
     if params[:reply]
@@ -141,6 +145,7 @@ class PostsController < ApplicationController
       :title, 
       :description, 
       :image, 
+      :authority,
       :category_ids => [])
   end
 
@@ -160,6 +165,20 @@ class PostsController < ApplicationController
       flash[:alert] = '文章不公開'
       redirect_to posts_path
     end
+  end
+
+  def check_authority
+    if @post.authority == "Myself"
+      unless @post.user.id == current_user.id
+        flash[:alert] = '無此權限觀看文章'
+        redirect_to posts_path
+      end 
+    elsif @post.authority == "Friends"
+      unless @post.user.id == current_user.id || @post.user.all_friends.include?(current_user)
+        flash[:alert] = '無此權限觀看文章'
+        redirect_to posts_path
+      end 
+    end   
   end
 end
 

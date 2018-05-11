@@ -20,4 +20,9 @@ class Post < ApplicationRecord
   def is_published?
     self.status == true
   end
+
+  def self.check_authority(user)
+    self.where("authority = ? OR user_id = ?", "All", user.id).or(where('authority = ? AND user_id IN (?)', "Friends", user.all_friends))
+  end
+    
 end

@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   before_action :user_owner, only: [:collect, :draft]
 
   def show
-    @user_posts = @user.posts.where('status = ?', true)
+    @user_posts = @user.posts.where('status = ?', true).check_authority(current_user)
   end
 
   def comment

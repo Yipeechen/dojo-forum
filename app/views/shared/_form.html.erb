@@ -9,9 +9,17 @@
     <%= image_tag @post.image, width: '300px' if @post.image? %>
     <%= f.file_field :image %> <br>
 
+    <%= f.label :authority, "Who can see：" %>
+    <%= f.radio_button :authority ,"All",:checked => true %>
+    <%= f.label :authority, "All" %> &nbsp; 
+    <%= f.radio_button :authority ,"Friends" %>
+    <%= f.label :authority, "Friends" %> &nbsp; 
+    <%= f.radio_button :authority ,"Myself" %>
+    <%= f.label :authority, "Myself" %> <br>
+
     <%= f.label :category_ids, "Category：" %>
     <%= f.collection_check_boxes(:category_ids, Category.all, :id, :name) do |category| %>    
-      <%= category.check_box %> <%= category.label %>
+      <%= category.check_box %> <%= category.label %> &nbsp; 
     <% end %> <br>
     
     <% if @post.status != true %>
