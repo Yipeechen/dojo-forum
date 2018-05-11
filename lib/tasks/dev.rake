@@ -12,7 +12,8 @@ namespace :dev do
         image: file,
         category_ids: [rand(1..3), rand(4..7)],
         user: User.all.sample,
-        status: true
+        status: true,
+        authority: ["All", "Friends", "Myself"].sample
       )
     end
     puts "have created fake Posts"
@@ -50,6 +51,19 @@ namespace :dev do
     puts "now you have #{Reply.count} replies data"
   end
 
+  task fake_friendships: :environment do
+    30.times do |i|
+
+      Friendship.create!(
+        status: ['accepted', 'pending'].sample,
+        user: User.all.sample,
+        friend: User.all.except(:user).sample
+      )
+    end
+    puts "have created fake friendships"
+    puts "now you have #{Friendship.count} friendships data"
+  end
+
   task fake_all: :environment do
     Rake::Task['db:drop'].execute
     Rake::Task['db:create'].execute
@@ -58,5 +72,6 @@ namespace :dev do
     Rake::Task['dev:fake_users'].execute
     Rake::Task['dev:fake_posts'].execute
     Rake::Task['dev:fake_replies'].execute
+    Rake::Task['dev:fake_friendships'].execute
   end
 end
