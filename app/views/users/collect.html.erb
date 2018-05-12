@@ -8,10 +8,10 @@
       <table class="table table-hover user-table">
         <tbody>
           <% @user_collect.each do |post| %>
-            <tr>
+            <tr id="<%= post.id %>">
               <td><%= link_to post.title, post_path(post) %></td>
               <td>
-                <%= render partial: "shared/favorite", locals: {post: post} %>
+                <span class="favorite-btn glyphicon glyphicon-heart text-danger"></span>
               </td>
             </tr>
           <% end %>
@@ -20,3 +20,21 @@
     </div>
   </div>
 </div>
+
+<script>
+$(".favorite-btn").on("click", function(event) {
+  var post_id = event.target.parentNode.parentNode.id;
+  console.log(post_id);
+  if(window.confirm("確定刪除收藏?")) {
+
+    $.ajax({
+      url: "/posts/" + post_id + "/unfavorite" ,
+      method: "POST",
+      dataType: "json",
+      success: function() {
+        $(".table").find("#" + post_id).remove();
+      }
+    });
+  }
+});
+</script>

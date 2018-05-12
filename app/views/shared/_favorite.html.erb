@@ -1,5 +1,5 @@
 <% if post.is_favorited?(current_user) %>
-  <%= link_to '<i class="glyphicon glyphicon-heart" aria-hidden="true"></i>'.html_safe, unfavorite_post_path(post), method: :post, style:'color: crimson' %>
+  <%= link_to '<i class="glyphicon glyphicon-heart" aria-hidden="true"></i>'.html_safe, unfavorite_post_path(from_show: true), method: :post, style:'color: crimson' %>
 <% else %>
   <%= link_to '<i class="glyphicon glyphicon-heart" aria-hidden="true"></i>'.html_safe, favorite_post_path(post), method: :post, style:'color: gray'  %>
 <% end %>

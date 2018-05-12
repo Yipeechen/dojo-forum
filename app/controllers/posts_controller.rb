@@ -137,7 +137,9 @@ class PostsController < ApplicationController
   def unfavorite
     favorites = Favorite.where(post: @post, user: current_user)
     favorites.destroy_all
-    redirect_back(fallback_location: root_path)
+    if params[:from_show]
+      redirect_back(fallback_location: root_path)  
+    end
   end
 
   private
