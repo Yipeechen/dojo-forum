@@ -23,10 +23,10 @@
         <% end %>
       </div>
 
-      <div class="col-md-12">
+      <div class="col-md-12 friend-request">
         <h3 class="user-title"><span>Friend &nbsp; requests</span></h3>
         <% @requested_friends.each do |friend| %>
-          <div class="col-md-2 col-sm-4 col-xs-6 text-center user-box">
+          <div class="col-md-2 col-sm-4 col-xs-6 text-center user-box" id="<%= friend.id %>">
             <%= link_to user_path(friend) do %>
               <%= image_tag(friend.avatar, class: "img-rounded") if friend.avatar?%>
               <%= image_tag "http://via.placeholder.com/128x128", class: "img-rounded" unless friend.avatar? %>
@@ -35,15 +35,18 @@
                 <%= friend.email.split("@").first unless friend.name? %>
               </h4>
             <% end %>
-            <%= render partial: "shared/friend", locals: {user: friend} %>
+            <div class="option">
+              <button class="accept-btn btn btn-info btn-sm">接受好友邀請</button>
+              <button class="reject-btn btn btn-danger btn-sm">拒絕好友邀請</button>
+            </div>
           </div>
         <% end %>
       </div>
 
-      <div class="col-md-12">
+      <div class="col-md-12 friend-accept">
         <h3 class="user-title"><span>My &nbsp; Friends</span></h3>
         <% @friends.each do |friend| %>
-          <div class="col-md-2 col-sm-4 col-xs-6 text-center user-box">
+          <div class="col-md-2 col-sm-4 col-xs-6 text-center user-box" id="<%= friend.id %>">
             <%= link_to user_path(friend) do %>
               <%= image_tag(friend.avatar, class: "img-rounded") if friend.avatar?%>
               <%= image_tag "http://via.placeholder.com/128x128", class: "img-rounded" unless friend.avatar? %>
@@ -59,3 +62,42 @@
     </div>
   </div>
 </div>
+
+<script>
+$(".accept-btn").on("click", function(event) {
+  var friend_id = event.target.parentNode.parentNode.id;
+  console.log(friend_id);
+
+    $.ajax({
+      url: "/friendships/" + friend_id + "/confirm" ,
+      method: "POST",
+      dataType: "json",
+      success: function() {
+        $(".friend-request").find("#" + friend_id).hide();
+
+        // 新增顯示朋友
+        var friendInfo = $(".friend-request").find("#" + friend_id);
+        $(".friend-accept").append("<div class=\"col-md-2 col-sm-4 col-xs-6 text-center user-box\" id=\"" + friend_id + "\"></div>");
+        $(".friend-accept").find("#" + friend_id).html(friendInfo.html());
+        $(".friend-accept").find("#" + friend_id).find(".option").html("<a class=\"btn btn-default btn-sm\" rel=\"nofollow\" data-method=\"delete\" href=\"/friendships/"+ friend_id +"\">取消好友</a>");
+
+      }
+    });
+});
+
+
+$(".reject-btn").on("click", function(event) {
+  var friend_id = event.target.parentNode.parentNode.id;
+  console.log(friend_id);
+
+    $.ajax({
+      url: "/friendships/" + friend_id + "/reject" ,
+      method: "DELETE",
+      dataType: "json",
+      success: function() {
+        $(".friend-request").find("#" + friend_id).remove();
+
+      }
+    });
+});
+</script>

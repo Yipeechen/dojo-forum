@@ -32,18 +32,22 @@ class FriendshipsController < ApplicationController
   def confirm
     @friendship = current_user.requested_friendships.find_by(user_id: params[:friendship_id])
     @friendship.update(status: 'accepted')
-    flash[:notice] = "確認好友邀請"
 
-    redirect_back fallback_location: root_path
+    if params[:authenticity_token]
+      flash[:notice] = "確認好友邀請"
+      redirect_back fallback_location: root_path
+    end
   end
 
   def reject
     @friendship = current_user.requested_friendships.find_by(user_id: params[:friendship_id])
     @friendship.destroy
-    flash[:alert] = "拒絕好友邀請"
 
-    redirect_back fallback_location: root_path
-   end
+    if params[:authenticity_token]
+      flash[:alert] = "拒絕好友邀請"
+      redirect_back fallback_location: root_path
+    end
+  end
 
   
 end
