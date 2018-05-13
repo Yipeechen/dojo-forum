@@ -98,6 +98,19 @@ class Api::V1::PostsController < ApiController
     end
   end
 
+  def destroy
+    @post.destroy
+    if @post.status == true
+      render json: {
+        message: "文章內容已刪除"
+      }
+    else
+      render json: {
+        message: "草稿內容已刪除"
+      }
+    end
+  end
+
   private
 
   def set_post
