@@ -18,7 +18,8 @@
 
     <div class="col-md-2"  style="text-align: center;">
       <div>
-      <%= image_tag @post.user.avatar, width: '150px' %>
+      <%= image_tag @post.user.avatar, width: '150px' if @post.user.avatar?%>
+      <%= image_tag "http://via.placeholder.com/150x150"  unless @post.user.avatar?%>
       </div>
       <h4>
         <%= link_to @post.user.name, user_path(@post.user) if @post.user.name? %>
@@ -29,7 +30,8 @@
 
     <div class="col-md-10">
       <div>
-        <%= image_tag @post.image, width: '600px', style: 'margin:15px' %>
+        <%= image_tag @post.image, width: '600px', style: 'margin:15px' if @post.image?%>
+        <%= image_tag "http://via.placeholder.com/600x400"  unless @post.image?%>
       </div>
       <p><%= @post.description %></p>
       
