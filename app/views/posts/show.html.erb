@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="col-md-12 post-content">
+  <div class="col-md-12 post-content" id="<%= @post.id %>">
     <h1>
       <%= @post.title %>
       <span class="post-info">
@@ -7,8 +7,12 @@
       </span>
 
       <% if @post.is_published? %>
-      <div class="pull-right favorite-btn">
-        <%= render partial: "shared/favorite", locals: {post: @post} %>
+      <div class="pull-right collect-post">
+        <% if @post.is_favorited?(current_user) %>
+          <span class="unfavorite-btn glyphicon glyphicon-heart text-danger"></span>
+        <% else %>
+          <span class="favorite-btn glyphicon glyphicon-heart"></span>
+        <% end %>
       </div>
       <% else %>
         <small><span class="label label-danger pull-right">Draft</span></small>
@@ -92,6 +96,40 @@
     <% end %>
   </div>
 </div>
+
+<script>
+$(".collect-post").on('click', '.favorite-btn', function(event){
+  var post_id = event.target.parentNode.parentNode.parentNode.id;
+  console.log(post_id);
+
+    $.ajax({
+      url: "/posts/" + post_id + "/favorite" ,
+      method: "POST",
+      dataType: "json",
+      success: function() {
+        $(".post-content").find(".favorite-btn").remove();
+        $(".post-content").find(".collect-post").append("<span class=\"unfavorite-btn glyphicon glyphicon-heart text-danger\"></span>");
+        console.log(post_id);
+      }
+    });
+});
+
+$(".collect-post").on('click', '.unfavorite-btn', function(event){
+  var post_id = event.target.parentNode.parentNode.parentNode.id;
+  console.log(post_id);
+
+    $.ajax({
+      url: "/posts/" + post_id + "/unfavorite" ,
+      method: "POST",
+      dataType: "json",
+      success: function() {
+        $(".post-content").find(".unfavorite-btn").remove();
+        $(".post-content").find(".collect-post").append("<span class=\"favorite-btn glyphicon glyphicon-heart\"></span>");
+        console.log(post_id);
+      }
+    });
+});
+</script>
 
 <script>
 $("#replylist").on("click", ".edit-reply", function(event) {
