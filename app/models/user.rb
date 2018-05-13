@@ -4,6 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  before_create :generate_authentication_token
+
   has_many :replies, dependent: :restrict_with_error
   has_many :posts
 
@@ -47,5 +49,9 @@ class User < ApplicationRecord
   def all_friends
     friends = self.friends + self.inverse_friends
     return friends.uniq
+  end
+
+  def generate_authentication_token
+     self.authentication_token = Devise.friendly_token
   end
 end
