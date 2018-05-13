@@ -154,7 +154,12 @@ class PostsController < ApplicationController
   end
 
   def set_post
-    @post = Post.find(params[:id])
+    if Post.find_by_id params[:id]
+      @post = Post.find(params[:id])
+    else
+      redirect_to posts_path
+      flash[:alert] = "文章內容不存在"
+    end
   end
 
   def post_owner
