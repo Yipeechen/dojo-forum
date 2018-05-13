@@ -26,10 +26,48 @@ class Api::V1::PostsController < ApiController
     }
   end
 
+  def create
+    @post = current_user.posts.new(post_params)
+    if params[:commit] == 'Save Draft'
+      @post.status = false
+      if @post.save
+        render json: {
+          message: "草稿儲存成功",
+          result: @post
+        }
+      else
+        render json: {
+          errors: @post.errors
+        }
+      end
+    else
+      @post.status = true
+      if @post.save
+        render json: {
+          message: "文章發佈成功",
+          result: @post
+        }
+      else
+        render json: {
+          errors: @post.errors
+        }
+      end
+    end
+  end
+
   private
 
   def set_post
     @post = Post.find(params[:id])
+  end
+
+  def post_params
+    params.permit(
+      :title, 
+      :description, 
+      :image, 
+      :authority,
+      :category_ids => [])
   end
 
   def check_draft
