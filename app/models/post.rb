@@ -1,7 +1,7 @@
 class Post < ApplicationRecord
   mount_uploader :image, PhotoUploader
 
-  validates_presence_of :title, :description, :categories, :authority
+  validates_presence_of :title, :description, :categories, :authority, :message => "標題、內容、分類、文章權限必填"
   
   belongs_to :user
 

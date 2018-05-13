@@ -3,6 +3,7 @@ class Api::V1::PostsController < ApiController
   before_action :set_post, only: [:show, :update, :destroy]
   before_action :check_draft, only: [:show]
   before_action :check_authority, only: [:show]
+  before_action :post_owner, only: [:update]
 
   def index
     @posts = Post.where("status = ? AND authority = ?", true, "All")
@@ -55,6 +56,48 @@ class Api::V1::PostsController < ApiController
     end
   end
 
+  def update
+    if current_user.admin? || current_user == @post.user
+      if @post.status == true && params[:commit] == 'Update'
+        if @post.update(post_params)
+          render json: {
+            message: "文章更新成功",
+            result: @post
+          }
+        else
+          render json: {
+            errors: "文章更新失敗"
+          }
+        end
+      elsif @post.status == false && params[:commit] == 'Submit'
+        @post.status = true
+        @post.viewed_count = 0
+
+        if @post.update(post_params)
+          render json: {
+            message: "文章發佈成功",
+            result: @post
+          }
+        else
+          render json: {
+            errors: "文章發布失敗"
+          }
+        end
+      else
+        if @post.update(post_params)
+          render json: {
+            message: "草稿更新成功",
+            result: @post
+          }
+        else
+          render json: {
+            errors:"草稿更新失敗"
+          }
+        end
+      end 
+    end
+  end
+
   private
 
   def set_post
@@ -92,5 +135,13 @@ class Api::V1::PostsController < ApiController
       }
       end 
     end   
+  end
+
+  def post_owner
+    unless @post.user_id == current_user.id
+      render json: {
+        errors: "非文章擁有者無法編輯"
+      }
+    end
   end
 end
