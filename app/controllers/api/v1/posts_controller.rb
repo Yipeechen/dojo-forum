@@ -19,7 +19,7 @@ class Api::V1::PostsController < ApiController
     end
     render json: {
       title: @post.title,
-      category_ids: @post.categories,
+      categories: @post.categories.map(&:name),
       description: @post.description,
       image: @post.image,
       user_id: @post.user_id
