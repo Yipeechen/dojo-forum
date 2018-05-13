@@ -1,5 +1,4 @@
 class CategoriesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:show]
   layout "site_index", only: [:show]
 
   def show
