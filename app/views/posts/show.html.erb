@@ -63,7 +63,7 @@
 
           <div class="media-body" style="padding-left: 30px;">
             <p class="reply-content"><%= reply.content %></p>
-            <% if current_user.admin? || reply.user == current_user %>
+            <% if reply.user == current_user %>
               <div class="pull-right">
                 <span class="edit-reply btn btn-default btn-sm glyphicon glyphicon-pencil"></span>
                 <%= link_to reply_path(reply), method: :delete, data: {confirm:"確定刪除此留言?"} do %>
