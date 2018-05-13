@@ -114,7 +114,14 @@ class Api::V1::PostsController < ApiController
   private
 
   def set_post
-    @post = Post.find(params[:id])
+    if Post.find_by_id params[:id]
+      @post = Post.find(params[:id])
+    else
+      render json: {
+        message: "文章內容不存在",
+        status: 400
+      }
+    end
   end
 
   def post_params
