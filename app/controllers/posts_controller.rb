@@ -9,7 +9,7 @@ class PostsController < ApplicationController
   layout "site_index", only: [:index, :sort]
 
   def index
-    @posts = Post.where('status = ?', true).page(params[:page]).per(20)
+    @posts = Post.where('status = ? AND authority = ?', true, "All").page(params[:page]).per(20)
     @categories = Category.all
     if user_signed_in?
       @posts = @posts.check_authority(current_user)
