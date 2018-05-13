@@ -22,7 +22,7 @@
       <%= category.check_box %> <%= category.label %> &nbsp; 
     <% end %> <br>
     
-    <% if @post.status != true %>
+    <% if @post.status != true || @post.title == nil || @post.description == nil || @post.category_ids == [] %>
       <%= f.submit "Save Draft", :class => 'btn btn-default' %>
       <%= f.submit  'Submit', :class => 'btn btn-primary' %>
     <% else %>

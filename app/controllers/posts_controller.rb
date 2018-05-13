@@ -22,22 +22,22 @@ class PostsController < ApplicationController
 
   def create
     @post = current_user.posts.new(post_params)
-    if params[:commit] == 'Submit'
+    if params[:commit] == 'Save Draft'
+      @post.status = false
+      if @post.save
+        flash[:notice] = "草稿儲存成功"
+        redirect_to post_path(@post)
+      else
+        flash.now[:alert] = "草稿儲存失敗"
+        render :new
+      end
+    else
       @post.status = true
       if @post.save
         flash[:notice] = "文章發布成功"
         redirect_to post_path(@post)
       else
         flash.now[:alert] = "文章發布失敗"
-        render :new
-      end
-    else
-      @post.status = false
-      if @post.save
-        flash[:notice] = "草稿發布成功"
-        redirect_to post_path(@post)
-      else
-        flash.now[:alert] = "草稿發布失敗"
         render :new
       end
     end
